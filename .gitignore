@@ -16,17 +16,19 @@
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
+DeveloperToolset/[Bb]in/[Rr]elease/*
+!DeveloperToolset/[Bb]in/[Rr]elease/MSCLoader.dll
+!DeveloperToolset/[Bb]in/[Rr]elease/PlayMaker.dll
+!DeveloperToolset/[Bb]in/[Rr]elease/UnityEngine.dll
+
 [Rr]eleases/
 x64/
 x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
 [Oo]bj/
 [Ll]og/
-
 # Visual Studio 2015/2017 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
@@ -42,6 +44,7 @@ Generated\ Files/
 # NUNIT
 *.VisualState.xml
 TestResult.xml
+
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
