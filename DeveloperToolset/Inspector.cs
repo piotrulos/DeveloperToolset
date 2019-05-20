@@ -297,9 +297,11 @@ namespace DeveloperToolset
             GUILayout.BeginVertical("box");
 
             GUILayout.Label("isPartOfStaticBatch: " + mr.isPartOfStaticBatch);
-            GUILayout.Label("Materal: " + mr.material);
+            GUILayout.Label("Number of materials: " + mr.materials.Length.ToString());
+            //add dropdown list with materials?
+            GUILayout.Label("Material: " + mr.material);
             GUILayout.Label("Main Texture: " + mr.material.mainTexture);
-            GUILayout.Label("Materal color: " + mr.material.color);
+            GUILayout.Label("Material color: " + mr.material.color);
             GUILayout.EndVertical();
         }
         private static void AudioSourceGUI(AudioSource aud)
@@ -307,12 +309,13 @@ namespace DeveloperToolset
             GUILayout.BeginVertical("box");
             GUILayout.Label("Audio Clip: " + aud.clip);
             GUILayout.Label("Output: " + aud.outputAudioMixerGroup);
-            GUILayout.Toggle(aud.mute, "Mute");
-            GUILayout.Toggle(aud.bypassEffects, "Bypass Effects");
-            GUILayout.Toggle(aud.bypassListenerEffects, "Bypass Listener Effects");
-            GUILayout.Toggle(aud.bypassReverbZones, "Bypass Reverb Zones");
-            GUILayout.Toggle(aud.playOnAwake, "Play On Awake");
-            GUILayout.Toggle(aud.loop, "Loop");
+
+            aud.mute = GUILayout.Toggle(aud.mute, "Mute");
+            aud.bypassEffects = GUILayout.Toggle(aud.bypassEffects, "Bypass Effects");
+            aud.bypassListenerEffects = GUILayout.Toggle(aud.bypassListenerEffects, "Bypass Listener Effects");
+            aud.bypassReverbZones = GUILayout.Toggle(aud.bypassReverbZones, "Bypass Reverb Zones");
+            aud.playOnAwake = GUILayout.Toggle(aud.playOnAwake, "Play On Awake");
+            aud.loop = GUILayout.Toggle(aud.loop, "Loop");
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Priority: ");
@@ -375,15 +378,15 @@ namespace DeveloperToolset
             if (comp is MeshCollider)
             {
                 MeshCollider col = comp as MeshCollider;
-                GUILayout.Toggle(col.convex, "Convex");
-                GUILayout.Toggle(col.isTrigger, "Is Trigger");
+                col.convex = GUILayout.Toggle(col.convex, "Convex");
+                col.isTrigger = GUILayout.Toggle(col.isTrigger, "Is Trigger");
                 GUILayout.Label("Material: " + col.sharedMaterial);
                 GUILayout.Label("Mesh: " + col.sharedMesh);
             }
             else
             {
                 Collider col = comp as Collider;
-                GUILayout.Toggle(col.isTrigger, "Is Trigger");
+                col.isTrigger = GUILayout.Toggle(col.isTrigger, "Is Trigger");
                 GUILayout.Label("Material: " + col.sharedMaterial);
 
                 if (comp is BoxCollider)
