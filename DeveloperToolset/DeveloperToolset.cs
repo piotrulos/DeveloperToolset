@@ -8,7 +8,7 @@ namespace DeveloperToolset
         public override string ID => "DeveloperToolkit"; //Your mod ID (unique)
         public override string Name => "Developer Toolkit"; //You mod name
         public override string Author => "zamp, piotrulos"; //Your Username
-        public override string Version => "1.1"; //Version
+        public override string Version => string.Format("{0}.{1}.{2}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build); //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
