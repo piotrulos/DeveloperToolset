@@ -96,8 +96,8 @@ namespace DeveloperToolset
 
                     if (m_inspect != null)
                     {
-                        GUILayout.BeginArea(new Rect(Screen.width - 301, 0, 300, Screen.height));
-                        m_inspectScrollPosition = GUILayout.BeginScrollView(m_inspectScrollPosition, false, true, GUILayout.Width(300));
+                        GUILayout.BeginArea(new Rect(Screen.width - 401, 0, 400, Screen.height));
+                        m_inspectScrollPosition = GUILayout.BeginScrollView(m_inspectScrollPosition, false, true, GUILayout.Width(400));
                         GUILayout.Label(m_inspect.name);
                         if (GUILayout.Button("Close"))
                             m_inspect = null;
@@ -140,7 +140,7 @@ namespace DeveloperToolset
                 GUILayout.Label("Tag: " + trans.gameObject.tag);
                 GUILayout.EndHorizontal();
                 if (GoPath != string.Empty)
-                    GUILayout.TextField(GoPath, GUILayout.MaxWidth(300));
+                    GUILayout.TextField(GoPath, GUILayout.MaxWidth(400));
                 GUILayout.BeginVertical("box");
                 m_bindingFlagPublic = GUILayout.Toggle(m_bindingFlagPublic, "Show public");
                 m_bindingFlagNonPublic = GUILayout.Toggle(m_bindingFlagNonPublic, "Show non-public");
@@ -193,6 +193,15 @@ namespace DeveloperToolset
                         case TextMesh _:
                             TextMeshComp(comp as TextMesh);
                             break;
+                        case HingeJoint _:
+                            HingeJointComp(comp as HingeJoint);
+                            break;
+                        case FixedJoint _:
+                            FixedJointComp(comp as FixedJoint);
+                            break;
+                        case SkinnedMeshRenderer _:
+                            SkinnedMeshRendererGUI(comp as SkinnedMeshRenderer);
+                            break;
                         default:
                             GenericsGUI(comp, flags);
                             break;
@@ -200,6 +209,72 @@ namespace DeveloperToolset
                 }
                 GUILayout.EndVertical();
             }
+        }
+
+        private static void FixedJointComp(FixedJoint comp)
+        {
+            GUILayout.BeginVertical("box");
+            GUILayout.Label("Connected Body:");
+            GUILayout.Label(comp.connectedBody.ToString());
+
+            GUILayout.Label("Break Force: " + comp.breakForce.ToString());
+            GUILayout.Label("Break Torque: " + comp.breakTorque.ToString());
+
+            GUILayout.Label("Enable Collision: " + comp.enableCollision.ToString());
+            GUILayout.Label("Enable Preprocessing: " + comp.enablePreprocessing.ToString());
+
+            GUILayout.EndVertical();
+        }
+
+        private static void HingeJointComp(HingeJoint comp)
+        {
+            GUILayout.BeginVertical("box");
+            GUILayout.Label("Connected Body:");
+            GUILayout.Label(comp.connectedBody.ToString());
+
+            Vector3 anch = comp.anchor;
+            GUILayout.Label("Anchor:");
+            GUILayout.Label("   X: " + anch.x.ToString() + ", Y: " + anch.y.ToString() + ", Z: " + anch.z.ToString());
+
+            Vector3 axis = comp.axis;
+            GUILayout.Label("Axis:");
+            GUILayout.Label("   X: " + axis.x.ToString() + ", Y: " + axis.y.ToString() + ", Z: " + axis.z.ToString());
+
+            GUILayout.Label("Auto Configure Connected Anchor: " + comp.autoConfigureConnectedAnchor);
+            Vector3 canch = comp.connectedAnchor;
+            GUILayout.Label("Connected Anchor:");
+            GUILayout.Label("   X: " + canch.x.ToString() + ", Y: " + canch.y.ToString() + ", Z: " + canch.z.ToString());
+
+            GUILayout.Label("Use Spring: " + comp.useSpring);
+            JointSpring spring = comp.spring;
+            GUILayout.Label("Spring: ");
+            GUILayout.Label("   Spring: " + spring.spring.ToString());
+            GUILayout.Label("   Damper: " + spring.damper.ToString());
+            GUILayout.Label("   Target Position: " + spring.targetPosition.ToString());
+
+            GUILayout.Label("Use Motor: " + comp.useMotor);
+            JointMotor motor = comp.motor;
+            GUILayout.Label("Motor: ");
+            GUILayout.Label("   Target Velocity: " + motor.targetVelocity.ToString());
+            GUILayout.Label("   Damper: " + motor.force.ToString());
+            GUILayout.Label("   Free Spin: " + motor.freeSpin.ToString());
+
+            GUILayout.Label("Use Limits: " + comp.useLimits);
+            JointLimits limits = comp.limits;
+            GUILayout.Label("Limits: ");
+            GUILayout.Label("   Min: " + limits.min.ToString());
+            GUILayout.Label("   Max: " + limits.max.ToString());
+            GUILayout.Label("   Min Bounce: " + limits.minBounce.ToString());
+            GUILayout.Label("   Max Bounce: " + limits.maxBounce.ToString());
+            GUILayout.Label("   Contact Distance: " + limits.contactDistance.ToString());
+
+            GUILayout.Label("Break Force: " + comp.breakForce.ToString());
+            GUILayout.Label("Break Torque: " + comp.breakTorque.ToString());
+
+            GUILayout.Label("Enable Collision: " + comp.enableCollision.ToString());
+            GUILayout.Label("Enable Preprocessing: " + comp.enablePreprocessing.ToString());
+
+            GUILayout.EndVertical();
         }
 
         private static void TextMeshComp(TextMesh textMesh)
@@ -221,7 +296,91 @@ namespace DeveloperToolset
             GUILayout.Label("Use gravity: " + rigidbody.useGravity);
             GUILayout.Label("Is Kinematic: " + rigidbody.isKinematic);
             GUILayout.Label("Detect collisions: " + rigidbody.detectCollisions);
+
+            GUILayout.Label("Interpolate: " + rigidbody.interpolation);
+
+            GUILayout.Label("Collision Detection: " + rigidbody.collisionDetectionMode);
+
+            GUILayout.Label("Velocity: " + rigidbody.velocity.magnitude);
+            GUILayout.Label("Velocity Vector: " + rigidbody.velocity);
+
             GUILayout.EndVertical();
+
+            /*
+            GUILayout.BeginVertical("box");
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Mass: ");
+            rigidbody.mass = (float)Convert.ToDouble(GUILayout.TextField(rigidbody.mass.ToString()));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Drag: ");
+            rigidbody.mass = (float)Convert.ToDouble(GUILayout.TextField(rigidbody.drag.ToString()));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Angular Drag: ");
+            rigidbody.mass = (float)Convert.ToDouble(GUILayout.TextField(rigidbody.angularDrag.ToString()));
+            GUILayout.EndHorizontal();
+
+            GUILayout.Toggle(rigidbody.useGravity, ": Use Gravity");
+            GUILayout.Toggle(rigidbody.isKinematic, ": Is Kinematic");
+
+            GUILayout.BeginHorizontal();
+            string interpolation = "(None)";
+            int interpolationValue = 0;
+            if (rigidbody.interpolation == RigidbodyInterpolation.Interpolate)
+            {
+                interpolation = "(Interpolate)";
+                interpolationValue = 1;
+            }
+            else if (rigidbody.interpolation == RigidbodyInterpolation.Extrapolate)
+            {
+                interpolation = "(Extrapolate)";
+                interpolationValue = 2;
+            }
+            GUILayout.Label("Interpolate: " + interpolation);
+            interpolationValue = Mathf.RoundToInt(GUILayout.HorizontalSlider(interpolationValue, 0, 2));
+            if (interpolationValue == 0) rigidbody.interpolation = RigidbodyInterpolation.None;
+            else if (interpolationValue == 1) rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+            else if (interpolationValue == 2) rigidbody.interpolation = RigidbodyInterpolation.Extrapolate;
+            GUILayout.EndHorizontal();
+
+            string collisionDetection = "(Discrete)";
+            int collisionDetectionValue = 0;
+            if (rigidbody.collisionDetectionMode == CollisionDetectionMode.Continuous)
+            {
+                collisionDetection = "(Continuous)";
+                collisionDetectionValue = 1;
+            }
+            else if (rigidbody.collisionDetectionMode == CollisionDetectionMode.ContinuousDynamic)
+            {
+                collisionDetection = "(Continuous Dynamic)";
+                collisionDetectionValue = 2;
+            }
+            GUILayout.Label("Collision Detection: " + collisionDetection);
+            GUILayout.BeginHorizontal();
+            collisionDetectionValue = Mathf.RoundToInt(GUILayout.HorizontalSlider(collisionDetectionValue, 0, 2));
+            if (collisionDetectionValue == 0) rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
+            else if (collisionDetectionValue == 1) rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+            else if (collisionDetectionValue == 2) rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            GUILayout.EndHorizontal();
+
+            GUILayout.Toggle(rigidbody.detectCollisions, ": Detect Collisions");
+
+            
+            GUILayout.Label("Constraints: ");
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Freeze Position: ");
+            RigidbodyConstraints constraints = rigidbody.constraints;
+            
+            GUILayout.Toggle(constraints.None, ": Detect Collisions");
+             = (float)Convert.ToDouble(GUILayout.TextField(rigidbody.angularDrag.ToString()));
+            
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+            */
         }
 
         private static void AnimationComp(Animation animation)
@@ -292,18 +451,79 @@ namespace DeveloperToolset
             GUILayout.Label("sharedMesh: " + mesh.sharedMesh);
             GUILayout.EndVertical();
         }
-        private static void MeshRendererGUI(MeshRenderer mr)
+
+        static string[] textureTypes = new string[] { "_MainTex", "_BumpMap", "_SpecGlossMap", "_EmissionMap", "_Reflection", "_Cutoff", "_MetallicGlossMap", "_DETAIL_MULX2", "_METALLICGLOSSMAP", "_NORMALMAP", "_SPECGLOSSMAP", "_DetailNormalMap", "_ParallaxMap", "_OcclusionMap", "_DetailMask", "_DetailAlbedoMap" };
+        private static void MeshRendererGUI(MeshRenderer meshRenderer)
         {
             GUILayout.BeginVertical("box");
 
-            GUILayout.Label("isPartOfStaticBatch: " + mr.isPartOfStaticBatch);
-            GUILayout.Label("Number of materials: " + mr.materials.Length.ToString());
-            //add dropdown list with materials?
-            GUILayout.Label("Material: " + mr.material);
-            GUILayout.Label("Main Texture: " + mr.material.mainTexture);
-            GUILayout.Label("Material color: " + mr.material.color);
+            GUILayout.Label("isPartOfStaticBatch: " + meshRenderer.isPartOfStaticBatch);
+
+            GUILayout.Label("Cast Shadows: " + meshRenderer.shadowCastingMode);
+
+            GUILayout.Label("Receive Shadows: " + meshRenderer.receiveShadows);
+
+            GUILayout.Label("Materials:");
+            int i = 0;
+            foreach (Material material in meshRenderer.sharedMaterials)
+            {
+                GUILayout.Label("   " + i + ":");
+                i++;
+
+                GUILayout.Label("       Name: " + material.name);
+                GUILayout.Label("       Textures: ");
+                foreach (string type in textureTypes.Where(type => material.GetTexture(type) != null))
+                    GUILayout.Label("           " + type + ": " + material.GetTexture(type).name);
+                GUILayout.Label("       Shader: " + material.shader.name);
+                GUILayout.Label("       Color: " + material.color);
+            }
+            GUILayout.Label("       Use Light Probes: " + meshRenderer.useLightProbes);
+
+            GUILayout.Label("Reflection Probes: " + meshRenderer.reflectionProbeUsage);
+
+            GUILayout.Label("Anchor Override: " + meshRenderer.probeAnchor);
+
             GUILayout.EndVertical();
         }
+
+        private static void SkinnedMeshRendererGUI(SkinnedMeshRenderer skinnedMeshRenderer)
+        {
+            GUILayout.BeginVertical("box");
+
+            GUILayout.Label("isPartOfStaticBatch: " + skinnedMeshRenderer.isPartOfStaticBatch);
+
+            GUILayout.Label("Cast Shadows: " + skinnedMeshRenderer.shadowCastingMode);
+
+            GUILayout.Label("Receive Shadows: " + skinnedMeshRenderer.receiveShadows);
+
+            GUILayout.Label("Materials:");
+            int i = 0;
+            foreach (Material material in skinnedMeshRenderer.sharedMaterials)
+            {
+                GUILayout.Label("   " + i + ":");
+                i++;
+
+                GUILayout.Label("       Name: " + material.name);
+                GUILayout.Label("       Textures: ");
+                foreach (string type in textureTypes.Where(type => material.GetTexture(type) != null))
+                    GUILayout.Label("           " + type + ": " + material.GetTexture(type).name);
+                GUILayout.Label("       Shader: " + material.shader.name);
+                GUILayout.Label("       Color: " + material.color);
+            }
+            GUILayout.Label("       Use Light Probes: " + skinnedMeshRenderer.useLightProbes);
+
+            GUILayout.Label("Reflection Probes: " + skinnedMeshRenderer.reflectionProbeUsage);
+            GUILayout.Label("Anchor Override: " + skinnedMeshRenderer.probeAnchor);
+            GUILayout.Label("Quality: " + skinnedMeshRenderer.quality);
+
+            GUILayout.Label("Update When Offscreen: " + skinnedMeshRenderer.updateWhenOffscreen);
+            GUILayout.Label("Mesh: " + skinnedMeshRenderer.sharedMesh);
+            GUILayout.Label("Root Bone: " + skinnedMeshRenderer.rootBone);
+            GUILayout.Label("Bounds: " + skinnedMeshRenderer.bounds);
+
+            GUILayout.EndVertical();
+        }
+
         private static void AudioSourceGUI(AudioSource aud)
         {
             GUILayout.BeginVertical("box");
@@ -372,54 +592,165 @@ namespace DeveloperToolset
 
             GUILayout.EndVertical();
         }
+
         private static void ColliderGUI(Component comp)
         {
             GUILayout.BeginVertical("box");
             if (comp is MeshCollider)
             {
                 MeshCollider col = comp as MeshCollider;
-                col.convex = GUILayout.Toggle(col.convex, "Convex");
-                col.isTrigger = GUILayout.Toggle(col.isTrigger, "Is Trigger");
-                GUILayout.Label("Material: " + col.sharedMaterial);
+                GUILayout.Label("Convex: " + col.convex);
+                GUILayout.Label("Is Trigger: " + col.isTrigger);
+                GUILayout.Label("Physics Material: " + col.sharedMaterial);
                 GUILayout.Label("Mesh: " + col.sharedMesh);
             }
-            else
+            else if (comp is BoxCollider)
             {
-                Collider col = comp as Collider;
-                col.isTrigger = GUILayout.Toggle(col.isTrigger, "Is Trigger");
-                GUILayout.Label("Material: " + col.sharedMaterial);
+                BoxCollider col = comp as BoxCollider;
+                GUILayout.Label("Is Trigger: " + col.isTrigger);
+                GUILayout.Label("Physics Material: " + col.sharedMaterial);
 
-                if (comp is BoxCollider)
-                {
-                    GUILayout.Label("Center");
-                    GUILayout.BeginHorizontal();
-                    BoxCollider colB = comp as BoxCollider;
-                    Vector3 pos = colB.center;
-                    pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
-                    pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
-                    pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
-                    colB.center = pos;
-                    GUILayout.EndHorizontal();
+                GUILayout.Label("Center (X, Y, Z):");
+                GUILayout.BeginHorizontal();
+                Vector3 pos = col.center;
+                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
+                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
+                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
+                col.center = pos;
+                GUILayout.EndHorizontal();
 
-                    GUILayout.Label("Size");
-                    GUILayout.BeginHorizontal();
-                    pos = colB.size;
-                    pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
-                    pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
-                    pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
-                    colB.size = pos;
-                    GUILayout.EndHorizontal();
-                }
+                GUILayout.Label("Size (X, Y Z):");
+                GUILayout.BeginHorizontal();
+                pos = col.size;
+                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
+                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
+                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
+                col.size = pos;
+                GUILayout.EndHorizontal();
+            }
+            else if (comp is SphereCollider)
+            {
+                SphereCollider col = comp as SphereCollider;
+                GUILayout.Label("Is Trigger: " + col.isTrigger);
+                GUILayout.Label("Physics Material: " + col.sharedMaterial);
 
+                GUILayout.Label("Center (X, Y, Z):");
+                GUILayout.BeginHorizontal();
+                Vector3 pos = col.center;
+                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
+                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
+                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
+                col.center = pos;
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Radius: ");
+                float radius = col.radius;
+                radius = (float)Convert.ToDouble(GUILayout.TextField(col.radius.ToString()));
+                col.radius = radius;
+                GUILayout.EndHorizontal();
+            }
+            else if (comp is CapsuleCollider)
+            {
+                CapsuleCollider col = comp as CapsuleCollider;
+                GUILayout.Label("Is Trigger: " + col.isTrigger);
+                GUILayout.Label("Physics Material: " + col.sharedMaterial);
+
+                GUILayout.Label("Center (X, Y, Z):");
+                GUILayout.BeginHorizontal();
+                Vector3 pos = col.center;
+                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
+                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
+                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
+                col.center = pos;
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Radius: ");
+                float radius = col.radius;
+                radius = (float)Convert.ToDouble(GUILayout.TextField(col.radius.ToString()));
+                col.radius = radius;
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Height: ");
+                float height = col.height;
+                height = (float)Convert.ToDouble(GUILayout.TextField(col.height.ToString()));
+                col.height = height;
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                string[] value = new string[] { "X-Axis", "Y-axis", "Z-axis" };
+                GUILayout.Label("Direction: " + value[col.direction]);
+                col.direction = Mathf.RoundToInt(GUILayout.HorizontalSlider(col.direction, 0, 2));
+                GUILayout.EndHorizontal();
             }
             GUILayout.EndVertical();
         }
+
         private static void LightGUI(Light light)
         {
+            GUILayout.BeginVertical("box");
+
+            GUILayout.Label("Type: " + light.type);
+            if (light.type == LightType.Spot || light.type == LightType.Point)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Range:");
+                light.range = (float)Convert.ToDouble(GUILayout.TextField(light.range.ToString()));
+                GUILayout.EndHorizontal();
+            }
+            if (light.type == LightType.Spot)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Spot Angle:");
+                light.spotAngle = (float)Convert.ToDouble(GUILayout.TextField(light.spotAngle.ToString()));
+                GUILayout.EndHorizontal();
+            }
+
+            GUILayout.Label("Color: (RGBA)");
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Shadow bias:");
-            light.shadowBias = (float)Convert.ToDouble(GUILayout.TextField(light.shadowBias.ToString()));
+            Color color = light.color;
+            color.r = (float)Convert.ToDouble(GUILayout.TextField(color.r.ToString()));
+            color.g = (float)Convert.ToDouble(GUILayout.TextField(color.g.ToString()));
+            color.b = (float)Convert.ToDouble(GUILayout.TextField(color.b.ToString()));
+            color.a = (float)Convert.ToDouble(GUILayout.TextField(color.a.ToString()));
+            light.color = color;
             GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Intensity: ");
+            light.intensity = (float)Convert.ToDouble(GUILayout.TextField(light.intensity.ToString()));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Bounce Intensity: ");
+            light.bounceIntensity = (float)Convert.ToDouble(GUILayout.TextField(light.bounceIntensity.ToString()));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            int shadowType = 0;
+            if (light.shadows == LightShadows.Hard) shadowType = 1;
+            else if (light.shadows == LightShadows.Soft) shadowType = 2;
+            GUILayout.Label("Shadow Type: " + light.shadows);
+            shadowType = Mathf.RoundToInt(GUILayout.HorizontalSlider(shadowType, 0, 2));
+            if (shadowType == 0) light.shadows = LightShadows.None;
+            else if (shadowType == 1) light.shadows = LightShadows.Hard;
+            else if (shadowType == 2) light.shadows = LightShadows.Soft;
+            GUILayout.EndHorizontal();
+
+            GUILayout.Label("Cookie: " + light.cookie);
+            if (light.type == LightType.Directional)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("Cookie Size: ");
+                light.cookieSize = (float)Convert.ToDouble(GUILayout.TextField(light.cookieSize.ToString()));
+                GUILayout.EndHorizontal();
+            }
+            GUILayout.Label("Flare: " + light.flare);
+            GUILayout.Label("Render Mode: " + light.renderMode);
+            GUILayout.Label("Culling Mask: " + light.cullingMask);
+            GUILayout.EndVertical();
         }
 
         //This is to fix.
@@ -690,7 +1021,6 @@ namespace DeveloperToolset
                 m_fsmToggles.Add(fsm, new FsmToggle());
             return m_fsmToggles[fsm].showGlobalTransitions;
         }
-
 
         private static void SetFsmStatesFor(PlayMakerFSM fsm, bool p)
         {
