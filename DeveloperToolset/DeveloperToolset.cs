@@ -7,7 +7,7 @@ namespace DeveloperToolset
     {
         public override string ID => "DeveloperToolkit"; //Your mod ID (unique)
         public override string Name => "Developer Toolkit"; //You mod name
-        public override string Author => "zamp, piotrulos"; //Your Username
+        public override string Author => "zamp, piotrulos, Fredrik"; //Your Username
         public override string Version => string.Format("{0}.{1}.{2}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Major, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Minor, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.Build); //Version
 
         // Set this to true if you will be load custom assets from Assets folder.
@@ -45,7 +45,7 @@ namespace DeveloperToolset
             if (showGui.IsDown())
                 Inspector.showGUI = !Inspector.showGUI;
 
-            if (Camera.main != null)
+            if (Camera.main != null && (raycastTweakable.IsPressed() || copy.IsDown() || paste.IsDown()))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 Physics.Raycast(ray, out RaycastHit hit);
