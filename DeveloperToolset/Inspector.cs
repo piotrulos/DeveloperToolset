@@ -136,14 +136,14 @@ namespace DeveloperToolset
 
                 trans.gameObject.SetActive(GUILayout.Toggle(trans.gameObject.activeSelf, "Is active"));
                 GUILayout.BeginHorizontal("box");
-                GUILayout.Label("Layer: " + LayerMask.LayerToName(trans.gameObject.layer) + " [" + trans.gameObject.layer + "]");
-                GUILayout.Label("Tag: " + trans.gameObject.tag);
+                GUILayout.Label("<b>Layer: </b>" + LayerMask.LayerToName(trans.gameObject.layer) + " [" + trans.gameObject.layer + "]");
+                GUILayout.Label("<b>Tag: </b>" + trans.gameObject.tag);
                 GUILayout.EndHorizontal();
                 if (GoPath != string.Empty)
                     GUILayout.TextField(GoPath, GUILayout.MaxWidth(400));
                 GUILayout.BeginVertical("box");
-                m_bindingFlagPublic = GUILayout.Toggle(m_bindingFlagPublic, "Show public");
-                m_bindingFlagNonPublic = GUILayout.Toggle(m_bindingFlagNonPublic, "Show non-public");
+                m_bindingFlagPublic = GUILayout.Toggle(m_bindingFlagPublic, "Show public variables");
+                m_bindingFlagNonPublic = GUILayout.Toggle(m_bindingFlagNonPublic, "Show non-public variables");
                 if (trans.gameObject.isStatic)
                 {
                     GUILayout.Label("!!! This GameObject is static !!!");
@@ -160,51 +160,21 @@ namespace DeveloperToolset
 
                     switch (comp)
                     {
-                        case Transform _:
-                            TransformGUI(comp);
-                            break;
-                        case Collider _:
-                            ColliderGUI(comp);
-                            break;
-                        case AudioSource _:
-                            AudioSourceGUI(comp as AudioSource);
-                            break;
-                        case MeshFilter _:
-                            MeshFilterGUI(comp as MeshFilter);
-                            break;
-                        case MeshRenderer _:
-                            MeshRendererGUI(comp as MeshRenderer);
-                            break;
-                        case PlayMakerFSM _:
-                            FSMGUI(comp);
-                            break;
-                        case Light _:
-                            LightGUI(comp as Light);
-                            break;
-                        case SpringJoint _:
-                            SpringJointComp(comp as SpringJoint);
-                            break;
-                        case Animation _:
-                            AnimationComp(comp as Animation);
-                            break;
-                        case Rigidbody _:
-                            RigidbodyComp(comp as Rigidbody);
-                            break;
-                        case TextMesh _:
-                            TextMeshComp(comp as TextMesh);
-                            break;
-                        case HingeJoint _:
-                            HingeJointComp(comp as HingeJoint);
-                            break;
-                        case FixedJoint _:
-                            FixedJointComp(comp as FixedJoint);
-                            break;
-                        case SkinnedMeshRenderer _:
-                            SkinnedMeshRendererGUI(comp as SkinnedMeshRenderer);
-                            break;
-                        default:
-                            GenericsGUI(comp, flags);
-                            break;
+                        case Transform _: TransformGUI(comp); break;
+                        case Collider _: ColliderGUI(comp); break;
+                        case AudioSource _: AudioSourceGUI(comp as AudioSource); break;
+                        case MeshFilter _: MeshFilterGUI(comp as MeshFilter); break;
+                        case MeshRenderer _: MeshRendererGUI(comp as MeshRenderer); break;
+                        case Light _: LightGUI(comp as Light); break;
+                        case SpringJoint _: SpringJointComp(comp as SpringJoint); break;
+                        case Animation _: AnimationComp(comp as Animation); break;
+                        case Rigidbody _: RigidbodyComp(comp as Rigidbody); break;
+                        case TextMesh _: TextMeshComp(comp as TextMesh); break;
+                        case HingeJoint _: HingeJointComp(comp as HingeJoint); break;
+                        case FixedJoint _: FixedJointComp(comp as FixedJoint); break;
+                        case SkinnedMeshRenderer _: SkinnedMeshRendererGUI(comp as SkinnedMeshRenderer); break;
+                        case PlayMakerFSM _: FSMGUI(comp); break;
+                        default: GenericsGUI(comp, flags); break;
                     }
                 }
                 GUILayout.EndVertical();
@@ -214,14 +184,14 @@ namespace DeveloperToolset
         private static void FixedJointComp(FixedJoint comp)
         {
             GUILayout.BeginVertical("box");
-            GUILayout.Label("Connected Body:");
+            GUILayout.Label("<b>Connected Body:</b>");
             GUILayout.Label(comp.connectedBody.ToString());
 
-            GUILayout.Label("Break Force: " + comp.breakForce.ToString());
-            GUILayout.Label("Break Torque: " + comp.breakTorque.ToString());
+            GUILayout.Label("<b>Break Force: </b>" + comp.breakForce);
+            GUILayout.Label("<b>Break Torque: </b>" + comp.breakTorque);
 
-            GUILayout.Label("Enable Collision: " + comp.enableCollision.ToString());
-            GUILayout.Label("Enable Preprocessing: " + comp.enablePreprocessing.ToString());
+            GUILayout.Label("<b>Enable Collision: </b>" + comp.enableCollision);
+            GUILayout.Label("<b>Enable Preprocessing: </b>" + comp.enablePreprocessing);
 
             GUILayout.EndVertical();
         }
@@ -229,80 +199,155 @@ namespace DeveloperToolset
         private static void HingeJointComp(HingeJoint comp)
         {
             GUILayout.BeginVertical("box");
-            GUILayout.Label("Connected Body:");
+            GUILayout.Label("<b>Connected Body:</b>");
             GUILayout.Label(comp.connectedBody.ToString());
 
             Vector3 anch = comp.anchor;
-            GUILayout.Label("Anchor:");
-            GUILayout.Label("   X: " + anch.x.ToString() + ", Y: " + anch.y.ToString() + ", Z: " + anch.z.ToString());
+            GUILayout.Label("<b>Anchor:</b>");
+            GUILayout.Label("<b>   X: </b>" + anch.x + "<b>, Y: </b>" + anch.y + "<b>, Z: </b>" + anch.z);
 
             Vector3 axis = comp.axis;
-            GUILayout.Label("Axis:");
-            GUILayout.Label("   X: " + axis.x.ToString() + ", Y: " + axis.y.ToString() + ", Z: " + axis.z.ToString());
+            GUILayout.Label("<b>Axis:</b>");
+            GUILayout.Label("<b>   X: </b>" + axis.x + "<b>, Y: </b>" + axis.y + "<b>, Z: </b>" + axis.z);
 
-            GUILayout.Label("Auto Configure Connected Anchor: " + comp.autoConfigureConnectedAnchor);
+            GUILayout.Label("<b>Auto Configure Connected Anchor: </b>" + comp.autoConfigureConnectedAnchor);
             Vector3 canch = comp.connectedAnchor;
-            GUILayout.Label("Connected Anchor:");
-            GUILayout.Label("   X: " + canch.x.ToString() + ", Y: " + canch.y.ToString() + ", Z: " + canch.z.ToString());
+            GUILayout.Label("<b>Connected Anchor:</b>");
+            GUILayout.Label("<b>   X: </b>" + canch.x + "<b>, Y: </b>" + canch.y + "<b>, Z: </b>" + canch.z);
 
-            GUILayout.Label("Use Spring: " + comp.useSpring);
+            GUILayout.Label("<b>Use Spring: </b>" + comp.useSpring);
             JointSpring spring = comp.spring;
-            GUILayout.Label("Spring: ");
-            GUILayout.Label("   Spring: " + spring.spring.ToString());
-            GUILayout.Label("   Damper: " + spring.damper.ToString());
-            GUILayout.Label("   Target Position: " + spring.targetPosition.ToString());
+            GUILayout.Label("<b>Spring: </b>");
+            GUILayout.Label("<b>   Spring: </b>" + spring.spring);
+            GUILayout.Label("<b>   Damper: </b>" + spring.damper);
+            GUILayout.Label("<b>   Target Position: </b>" + spring.targetPosition);
 
-            GUILayout.Label("Use Motor: " + comp.useMotor);
+            GUILayout.Label("<b>Use Motor: </b>" + comp.useMotor);
             JointMotor motor = comp.motor;
-            GUILayout.Label("Motor: ");
-            GUILayout.Label("   Target Velocity: " + motor.targetVelocity.ToString());
-            GUILayout.Label("   Damper: " + motor.force.ToString());
-            GUILayout.Label("   Free Spin: " + motor.freeSpin.ToString());
+            GUILayout.Label("<b>Motor: </b>");
+            GUILayout.Label("<b>   Target Velocity: </b>" + motor.targetVelocity);
+            GUILayout.Label("<b>   Damper: </b>" + motor.force);
+            GUILayout.Label("<b>   Free Spin: </b>" + motor.freeSpin);
 
-            GUILayout.Label("Use Limits: " + comp.useLimits);
+            GUILayout.Label("<b>Use Limits: </b>" + comp.useLimits);
             JointLimits limits = comp.limits;
-            GUILayout.Label("Limits: ");
-            GUILayout.Label("   Min: " + limits.min.ToString());
-            GUILayout.Label("   Max: " + limits.max.ToString());
-            GUILayout.Label("   Min Bounce: " + limits.minBounce.ToString());
-            GUILayout.Label("   Max Bounce: " + limits.maxBounce.ToString());
-            GUILayout.Label("   Contact Distance: " + limits.contactDistance.ToString());
+            GUILayout.Label("<b>Limits: </b>");
+            GUILayout.Label("<b>   Min: </b>" + limits.min);
+            GUILayout.Label("<b>   Max: </b>" + limits.max);
+            GUILayout.Label("<b>   Min Bounce: </b>" + limits.minBounce);
+            GUILayout.Label("<b>   Max Bounce: </b>" + limits.maxBounce);
+            GUILayout.Label("<b>   Contact Distance: </b>" + limits.contactDistance);
 
-            GUILayout.Label("Break Force: " + comp.breakForce.ToString());
-            GUILayout.Label("Break Torque: " + comp.breakTorque.ToString());
+            GUILayout.Label("<b>Break Force: </b>" + comp.breakForce);
+            GUILayout.Label("<b>Break Torque: </b>" + comp.breakTorque);
 
-            GUILayout.Label("Enable Collision: " + comp.enableCollision.ToString());
-            GUILayout.Label("Enable Preprocessing: " + comp.enablePreprocessing.ToString());
+            GUILayout.Label("<b>Enable Collision: </b>" + comp.enableCollision);
+            GUILayout.Label("<b>Enable Preprocessing: </b>" + comp.enablePreprocessing);
 
             GUILayout.EndVertical();
         }
 
         private static void TextMeshComp(TextMesh textMesh)
         {
+            int intValue;
+            float floatValue;
+
             GUILayout.BeginVertical("box");
-            GUILayout.Label("Font: " + textMesh.font);
-            GUILayout.Label("Text: " + textMesh.text);
-            GUILayout.Label("Color: " + textMesh.color);
-            GUILayout.Label("is Rich text: " + textMesh.richText);
+            GUILayout.Label("<b>Text:</b>");
+            string text = textMesh.text;
+            text = GUILayout.TextField(textMesh.text);
+            textMesh.text = text;
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Offset Z:</b>");
+            floatValue = textMesh.offsetZ;
+            floatValue = (float)Convert.ToDouble(GUILayout.TextField(textMesh.offsetZ.ToString()));
+            textMesh.offsetZ = floatValue;
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Character Size:</b>");
+            floatValue = textMesh.characterSize;
+            floatValue = (float)Convert.ToDouble(GUILayout.TextField(textMesh.characterSize.ToString()));
+            textMesh.characterSize = floatValue;
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Line Spacing:</b>");
+            floatValue = textMesh.lineSpacing;
+            floatValue = (float)Convert.ToDouble(GUILayout.TextField(textMesh.lineSpacing.ToString()));
+            textMesh.lineSpacing = floatValue;
+            GUILayout.EndHorizontal();
+
+            GUILayout.Label("<b>Anchor: </b>" + textMesh.anchor);
+            GUILayout.BeginHorizontal();
+            intValue = (int)textMesh.anchor;
+            intValue = Mathf.RoundToInt(GUILayout.HorizontalSlider(intValue, 0, 8));
+            textMesh.anchor = (TextAnchor)intValue;
+            GUILayout.EndHorizontal();
+
+            GUILayout.Label("<b>Alignment: </b>" + textMesh.alignment);
+            GUILayout.BeginHorizontal();
+            intValue = (int)textMesh.alignment;
+            intValue = Mathf.RoundToInt(GUILayout.HorizontalSlider(intValue, 0, 2));
+            textMesh.alignment = (TextAlignment)intValue;
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Tab Size:</b>");
+            floatValue = textMesh.tabSize;
+            floatValue = (float)Convert.ToDouble(GUILayout.TextField(textMesh.tabSize.ToString()));
+            textMesh.tabSize = floatValue;
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Font Size:</b>");
+            intValue = textMesh.fontSize;
+            intValue = Convert.ToInt32(GUILayout.TextField(textMesh.fontSize.ToString()));
+            textMesh.fontSize = intValue;
+            GUILayout.EndHorizontal();
+
+            GUILayout.Label("<b>Font Style: </b>" + textMesh.fontStyle);
+            GUILayout.BeginHorizontal();
+            intValue = (int)textMesh.fontStyle;
+            intValue = Mathf.RoundToInt(GUILayout.HorizontalSlider(intValue, 0, 3));
+            textMesh.fontStyle = (FontStyle)intValue;
+            GUILayout.EndHorizontal();
+
+            bool boolValue = textMesh.richText;
+            boolValue = GUILayout.Toggle(textMesh.richText, "Rich Text");
+            textMesh.richText = boolValue;
+
+            GUILayout.Label("<b>Font: </b>" + textMesh.font);
+
+            GUILayout.Label("<b>Color: </b>" + textMesh.color);
+            GUILayout.BeginHorizontal();
+            Color color = textMesh.color;
+            color.r = (float)Convert.ToDouble(GUILayout.TextField(color.r.ToString()));
+            color.g = (float)Convert.ToDouble(GUILayout.TextField(color.g.ToString()));
+            color.b = (float)Convert.ToDouble(GUILayout.TextField(color.b.ToString()));
+            color.a = (float)Convert.ToDouble(GUILayout.TextField(color.a.ToString()));
+            textMesh.color = color;
+            GUILayout.EndHorizontal();
             GUILayout.EndVertical();
         }
 
         private static void RigidbodyComp(Rigidbody rigidbody)
         {
             GUILayout.BeginVertical("box");
-            GUILayout.Label("Mass: " + rigidbody.mass);
-            GUILayout.Label("Drag: " + rigidbody.drag);
-            GUILayout.Label("Angular Drag: " + rigidbody.angularDrag);
-            GUILayout.Label("Use gravity: " + rigidbody.useGravity);
-            GUILayout.Label("Is Kinematic: " + rigidbody.isKinematic);
-            GUILayout.Label("Detect collisions: " + rigidbody.detectCollisions);
+            GUILayout.Label("<b>Mass: </b>" + rigidbody.mass);
+            GUILayout.Label("<b>Drag: </b>" + rigidbody.drag);
+            GUILayout.Label("<b>Angular Drag: </b>" + rigidbody.angularDrag);
+            GUILayout.Label("<b>Use gravity: </b>" + rigidbody.useGravity);
+            GUILayout.Label("<b>Is Kinematic: </b>" + rigidbody.isKinematic);
+            GUILayout.Label("<b>Detect collisions: </b>" + rigidbody.detectCollisions);
 
-            GUILayout.Label("Interpolate: " + rigidbody.interpolation);
+            GUILayout.Label("<b>Interpolate: </b>" + rigidbody.interpolation);
 
-            GUILayout.Label("Collision Detection: " + rigidbody.collisionDetectionMode);
+            GUILayout.Label("<b>Collision Detection: </b>" + rigidbody.collisionDetectionMode);
 
-            GUILayout.Label("Velocity: " + rigidbody.velocity.magnitude);
-            GUILayout.Label("Velocity Vector: " + rigidbody.velocity);
+            GUILayout.Label("<b>Velocity: </b>" + rigidbody.velocity.magnitude);
+            GUILayout.Label("<b>Velocity Vector: </b>" + rigidbody.velocity);
 
             GUILayout.EndVertical();
 
@@ -386,9 +431,23 @@ namespace DeveloperToolset
         private static void AnimationComp(Animation animation)
         {
             GUILayout.BeginVertical("box");
-            GUILayout.Label("Animation name: " + animation.name);
-            GUILayout.Label("Animation clip: " + animation.clip);
-            GUILayout.Label("Animation clip name: " + animation.clip.name);
+            GUILayout.Label("<b>Animation clip: </b>" + animation.clip);
+            bool firstLine = false;
+            int index = 0;
+            foreach (AnimationState state in animation)
+            {
+                if (!firstLine)
+                {
+                    firstLine = true;
+                    GUILayout.Label("<b>Animation clips: </b>");
+                }
+                GUILayout.Label("   <b>Clip " + index + ": </b>" + state.clip);
+                index++;
+            }
+            GUILayout.Label("<b>Play Automatically: </b>" + animation.playAutomatically);
+            GUILayout.Label("<b>Animate Physics: </b>" + animation.animatePhysics);
+            GUILayout.Label("<b>Culling Type: </b>" + animation.cullingType);
+
             GUILayout.EndVertical();
 
         }
@@ -396,59 +455,50 @@ namespace DeveloperToolset
         private static void SpringJointComp(SpringJoint comp)
         {
             GUILayout.BeginVertical("box");
-            GUILayout.Label("Connected body: " + comp.connectedBody);
-            SpringJoint t = comp;
 
-            GUILayout.Label("Anchor:");
-            GUILayout.BeginHorizontal();
-            Vector3 anch = t.anchor;
-            anch.x = (float)Convert.ToDouble(GUILayout.TextField(anch.x.ToString()));
-            anch.y = (float)Convert.ToDouble(GUILayout.TextField(anch.y.ToString()));
-            anch.z = (float)Convert.ToDouble(GUILayout.TextField(anch.z.ToString()));
-            t.anchor = anch;
-            GUILayout.EndHorizontal();
-            t.autoConfigureConnectedAnchor = GUILayout.Toggle(t.autoConfigureConnectedAnchor, "Auto Configure connected anchor");
+            GUILayout.Label("<b>Connected Body:</b>");
+            GUILayout.Label(comp.connectedBody.ToString());
 
-            GUILayout.Label("Connected anchor:");
-            GUILayout.BeginHorizontal();
-            Vector3 canch = t.connectedAnchor;
-            canch.x = (float)Convert.ToDouble(GUILayout.TextField(canch.x.ToString()));
-            canch.y = (float)Convert.ToDouble(GUILayout.TextField(canch.y.ToString()));
-            canch.z = (float)Convert.ToDouble(GUILayout.TextField(canch.z.ToString()));
-            t.connectedAnchor = canch;
-            GUILayout.EndHorizontal();
+            Vector3 vector3Value = comp.anchor;
+            GUILayout.Label("<b>Anchor:</b>");
+            GUILayout.Label("<b>   X: </b>" + vector3Value.x.ToString() + "<b>, Y: </b>" + vector3Value.y + "<b>, Z: </b>" + vector3Value.z);
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Spring:");
-            t.spring = (float)Convert.ToDouble(GUILayout.TextField(t.spring.ToString()));
-            GUILayout.EndHorizontal();
+            GUILayout.Label("<b>Auto Configure Connected Anchor: </b>" + comp.autoConfigureConnectedAnchor);
+            vector3Value = comp.connectedAnchor;
+            GUILayout.Label("<b>Connected Anchor:</b>");
+            GUILayout.Label("<b>   X: </b>" + vector3Value.x + "<b>, Y: </b>" + vector3Value.y + "<b>, Z: </b>" + vector3Value.z);
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Damper:");
-            t.damper = (float)Convert.ToDouble(GUILayout.TextField(t.damper.ToString()));
-            GUILayout.EndHorizontal();
+            GUILayout.Label("<b>Spring: </b>" + comp.spring);
+            GUILayout.Label("<b>Damper: </b>" + comp.damper);
+            GUILayout.Label("<b>Min Distance: </b>" + comp.minDistance);
+            GUILayout.Label("<b>Max Distance: </b>" + comp.maxDistance);
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Min dist:");
-            t.minDistance = (float)Convert.ToDouble(GUILayout.TextField(t.minDistance.ToString()));
-            GUILayout.EndHorizontal();
+            GUILayout.Label("<b>Break Force: </b>" + comp.breakForce);
+            GUILayout.Label("<b>Break Torque: </b>" + comp.breakTorque);
 
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Max dist:");
-            t.maxDistance = (float)Convert.ToDouble(GUILayout.TextField(t.maxDistance.ToString()));
-            GUILayout.EndHorizontal();
+            GUILayout.Label("<b>Enable Collision: </b>" + comp.enableCollision);
+            GUILayout.Label("<b>Enable Preprocessing: </b>" + comp.enablePreprocessing);
 
             GUILayout.EndVertical();
         }
 
-        private static void MeshFilterGUI(MeshFilter mesh)
+        private static void MeshFilterGUI(MeshFilter meshFilter)
         {
 
             GUILayout.BeginVertical("box");
-            GUILayout.Label("subMeshCount: " + mesh.mesh.subMeshCount);
-            GUILayout.Label("name: " + mesh.name);
-            GUILayout.Label("mesh: " + mesh.mesh);
-            GUILayout.Label("sharedMesh: " + mesh.sharedMesh);
+            GUILayout.Label("<b>Mesh: </b>" + meshFilter.mesh);
+            GUILayout.Label("<b>Mesh Info: </b>");
+            GUILayout.Label("<b>    Sub Mesh Count: </b>" + meshFilter.mesh.subMeshCount);
+            GUILayout.Label("<b>    Bounds: </b>" + meshFilter.mesh.bounds);
+            GUILayout.Label("<b>    Vertex Count: </b>" + meshFilter.mesh.vertexCount);
+            GUILayout.Label("<b>    BlendShape Count: </b>" + meshFilter.mesh.blendShapeCount);
+
+            GUILayout.Label("<b>Shared Mesh: </b>" + meshFilter.sharedMesh);
+            GUILayout.Label("<b>Shared Mesh Info: </b>");
+            GUILayout.Label("<b>    Sub Mesh Count: </b>" + meshFilter.sharedMesh.subMeshCount);
+            GUILayout.Label("<b>    Bounds: </b>" + meshFilter.sharedMesh.bounds);
+            GUILayout.Label("<b>    Vertex Count: </b>" + meshFilter.sharedMesh.vertexCount);
+            GUILayout.Label("<b>    BlendShape Count: </b>" + meshFilter.sharedMesh.blendShapeCount);
             GUILayout.EndVertical();
         }
 
@@ -457,31 +507,27 @@ namespace DeveloperToolset
         {
             GUILayout.BeginVertical("box");
 
-            GUILayout.Label("isPartOfStaticBatch: " + meshRenderer.isPartOfStaticBatch);
+            GUILayout.Label("<b>Cast Shadows: </b>" + meshRenderer.shadowCastingMode);
+            GUILayout.Label("<b>Receive Shadows: </b>" + meshRenderer.receiveShadows);
 
-            GUILayout.Label("Cast Shadows: " + meshRenderer.shadowCastingMode);
-
-            GUILayout.Label("Receive Shadows: " + meshRenderer.receiveShadows);
-
-            GUILayout.Label("Materials:");
+            GUILayout.Label("<b>Materials:</b>");
             int i = 0;
             foreach (Material material in meshRenderer.sharedMaterials)
             {
-                GUILayout.Label("   " + i + ":");
+                GUILayout.Label("<b>   Material " + i + ":</b>");
                 i++;
-
-                GUILayout.Label("       Name: " + material.name);
-                GUILayout.Label("       Textures: ");
+                GUILayout.Label("<b>       Name: </b>" + material.name);
+                GUILayout.Label("<b>       Textures: </b>");
                 foreach (string type in textureTypes.Where(type => material.GetTexture(type) != null))
-                    GUILayout.Label("           " + type + ": " + material.GetTexture(type).name);
-                GUILayout.Label("       Shader: " + material.shader.name);
-                GUILayout.Label("       Color: " + material.color);
+                    GUILayout.Label("<b>           " + type + ": </b>" + material.GetTexture(type).name);
+                GUILayout.Label("<b>       Shader: </b>" + material.shader.name);
+                GUILayout.Label("<b>       Color: </b>" + material.color);
             }
-            GUILayout.Label("       Use Light Probes: " + meshRenderer.useLightProbes);
 
-            GUILayout.Label("Reflection Probes: " + meshRenderer.reflectionProbeUsage);
-
-            GUILayout.Label("Anchor Override: " + meshRenderer.probeAnchor);
+            GUILayout.Label("<b>Use Light Probes: </b>" + meshRenderer.useLightProbes);
+            GUILayout.Label("<b>Reflection Probes: </b>" + meshRenderer.reflectionProbeUsage);
+            GUILayout.Label("<b>Anchor Override: </b>" + meshRenderer.probeAnchor);
+            GUILayout.Label("<b>Part Of Static Batch: </b>" + meshRenderer.isPartOfStaticBatch);
 
             GUILayout.EndVertical();
         }
@@ -490,36 +536,35 @@ namespace DeveloperToolset
         {
             GUILayout.BeginVertical("box");
 
-            GUILayout.Label("isPartOfStaticBatch: " + skinnedMeshRenderer.isPartOfStaticBatch);
+            GUILayout.Label("<b>Cast Shadows: </b>" + skinnedMeshRenderer.shadowCastingMode);
 
-            GUILayout.Label("Cast Shadows: " + skinnedMeshRenderer.shadowCastingMode);
+            GUILayout.Label("<b>Receive Shadows: </b>" + skinnedMeshRenderer.receiveShadows);
 
-            GUILayout.Label("Receive Shadows: " + skinnedMeshRenderer.receiveShadows);
-
-            GUILayout.Label("Materials:");
+            GUILayout.Label("<b>Materials:</b>");
             int i = 0;
             foreach (Material material in skinnedMeshRenderer.sharedMaterials)
             {
-                GUILayout.Label("   " + i + ":");
+                GUILayout.Label("<b>   Material" + i + ":</b>");
                 i++;
-
-                GUILayout.Label("       Name: " + material.name);
-                GUILayout.Label("       Textures: ");
+                GUILayout.Label("<b>       Name: </b>" + material.name);
+                GUILayout.Label("<b>       Textures: </b>");
                 foreach (string type in textureTypes.Where(type => material.GetTexture(type) != null))
-                    GUILayout.Label("           " + type + ": " + material.GetTexture(type).name);
-                GUILayout.Label("       Shader: " + material.shader.name);
-                GUILayout.Label("       Color: " + material.color);
+                    GUILayout.Label("<b>           " + type + ": </b>" + material.GetTexture(type).name);
+                GUILayout.Label("<b>       Shader: </b>" + material.shader.name);
+                GUILayout.Label("<b>       Color: </b>" + material.color);
             }
-            GUILayout.Label("       Use Light Probes: " + skinnedMeshRenderer.useLightProbes);
 
-            GUILayout.Label("Reflection Probes: " + skinnedMeshRenderer.reflectionProbeUsage);
-            GUILayout.Label("Anchor Override: " + skinnedMeshRenderer.probeAnchor);
-            GUILayout.Label("Quality: " + skinnedMeshRenderer.quality);
+            GUILayout.Label("<b>Use Light Probes: </b>" + skinnedMeshRenderer.useLightProbes);
+            GUILayout.Label("<b>Reflection Probes: </b>" + skinnedMeshRenderer.reflectionProbeUsage);
+            GUILayout.Label("<b>Anchor Override: </b>" + skinnedMeshRenderer.probeAnchor);
+            GUILayout.Label("<b>Quality: </b>" + skinnedMeshRenderer.quality);
 
-            GUILayout.Label("Update When Offscreen: " + skinnedMeshRenderer.updateWhenOffscreen);
-            GUILayout.Label("Mesh: " + skinnedMeshRenderer.sharedMesh);
-            GUILayout.Label("Root Bone: " + skinnedMeshRenderer.rootBone);
-            GUILayout.Label("Bounds: " + skinnedMeshRenderer.bounds);
+            GUILayout.Label("<b>Update When Offscreen: </b>" + skinnedMeshRenderer.updateWhenOffscreen);
+            GUILayout.Label("<b>Mesh: </b>" + skinnedMeshRenderer.sharedMesh);
+            GUILayout.Label("<b>Root Bone: </b>" + skinnedMeshRenderer.rootBone);
+            GUILayout.Label("<b>Bounds: </b>" + skinnedMeshRenderer.bounds);
+
+            GUILayout.Label("<b>Part Of Static Batch: </b>" + skinnedMeshRenderer.isPartOfStaticBatch);
 
             GUILayout.EndVertical();
         }
@@ -527,66 +572,85 @@ namespace DeveloperToolset
         private static void AudioSourceGUI(AudioSource aud)
         {
             GUILayout.BeginVertical("box");
-            GUILayout.Label("Audio Clip: " + aud.clip);
-            GUILayout.Label("Output: " + aud.outputAudioMixerGroup);
-
-            aud.mute = GUILayout.Toggle(aud.mute, "Mute");
-            aud.bypassEffects = GUILayout.Toggle(aud.bypassEffects, "Bypass Effects");
-            aud.bypassListenerEffects = GUILayout.Toggle(aud.bypassListenerEffects, "Bypass Listener Effects");
-            aud.bypassReverbZones = GUILayout.Toggle(aud.bypassReverbZones, "Bypass Reverb Zones");
-            aud.playOnAwake = GUILayout.Toggle(aud.playOnAwake, "Play On Awake");
-            aud.loop = GUILayout.Toggle(aud.loop, "Loop");
+            GUILayout.Label("<b>Audio Clip: </b>" + aud.clip);
+            GUILayout.Label("<b>Output: </b>" + aud.outputAudioMixerGroup);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Priority: ");
+            GUILayout.Label("<b>Mute:</b>");
+            aud.mute = GUILayout.Toggle(aud.mute, "");
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Bypass Effects:</b>");
+            aud.bypassEffects = GUILayout.Toggle(aud.bypassEffects, "");
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Bypass Listener Effects:</b>");
+            aud.bypassListenerEffects = GUILayout.Toggle(aud.bypassListenerEffects, "");
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Bypass Reverb Zones:</b>");
+            aud.bypassReverbZones = GUILayout.Toggle(aud.bypassReverbZones, "");
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Play On Awake:</b>");
+            aud.playOnAwake = GUILayout.Toggle(aud.playOnAwake, "");
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Loop:</b>");
+            aud.loop = GUILayout.Toggle(aud.loop, "");
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("<b>Priority: </b>");
             aud.priority = Convert.ToInt32(GUILayout.TextField(aud.priority.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Volume: ");
+            GUILayout.Label("<b>Volume: </b>");
             aud.volume = (float)Convert.ToDouble(GUILayout.TextField(aud.volume.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Pitch: ");
+            GUILayout.Label("<b>Pitch: </b>");
             aud.pitch = (float)Convert.ToDouble(GUILayout.TextField(aud.pitch.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Stereo Pan: ");
+            GUILayout.Label("<b>Stereo Pan: </b>");
             aud.panStereo = (float)Convert.ToDouble(GUILayout.TextField(aud.panStereo.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Spatial Blend: ");
+            GUILayout.Label("<b>Spatial Blend: </b>");
             aud.spatialBlend = (float)Convert.ToDouble(GUILayout.TextField(aud.spatialBlend.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Reverb zone mix: ");
+            GUILayout.Label("<b>Reverb zone mix: </b>");
             aud.reverbZoneMix = (float)Convert.ToDouble(GUILayout.TextField(aud.reverbZoneMix.ToString()));
             GUILayout.EndHorizontal();
-            GUILayout.Label("3D Sound Settings: ");
+
+            GUILayout.Label("<b>3D Sound Settings: </b>");
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Doppler level: ");
+            GUILayout.Label("<b>    Doppler level: </b>");
             aud.dopplerLevel = (float)Convert.ToDouble(GUILayout.TextField(aud.dopplerLevel.ToString()));
             GUILayout.EndHorizontal();
 
-            GUILayout.Label("Volume Rollof: " + aud.rolloffMode);
+            GUILayout.Label("<b>    Volume Rolloff: </b>" + aud.rolloffMode);
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Min Distance: ");
+            GUILayout.Label("<b>        Min Distance: </b>");
             aud.minDistance = (float)Convert.ToDouble(GUILayout.TextField(aud.minDistance.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Spread: ");
+            GUILayout.Label("<b>    Spread: </b>");
             aud.spread = (float)Convert.ToDouble(GUILayout.TextField(aud.spread.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Max distance: ");
+            GUILayout.Label("<b>    Max distance: </b>");
             aud.maxDistance = (float)Convert.ToDouble(GUILayout.TextField(aud.maxDistance.ToString()));
             GUILayout.EndHorizontal();
 
@@ -599,18 +663,18 @@ namespace DeveloperToolset
             if (comp is MeshCollider)
             {
                 MeshCollider col = comp as MeshCollider;
-                GUILayout.Label("Convex: " + col.convex);
-                GUILayout.Label("Is Trigger: " + col.isTrigger);
-                GUILayout.Label("Physics Material: " + col.sharedMaterial);
-                GUILayout.Label("Mesh: " + col.sharedMesh);
+                GUILayout.Label("<b>Convex: </b>" + col.convex);
+                GUILayout.Label("<b>Is Trigger: </b>" + col.isTrigger);
+                GUILayout.Label("<b>Physics Material: </b>" + col.sharedMaterial);
+                GUILayout.Label("<b>Mesh: </b>" + col.sharedMesh);
             }
             else if (comp is BoxCollider)
             {
                 BoxCollider col = comp as BoxCollider;
-                GUILayout.Label("Is Trigger: " + col.isTrigger);
-                GUILayout.Label("Physics Material: " + col.sharedMaterial);
+                GUILayout.Label("<b>Is Trigger: </b>" + col.isTrigger);
+                GUILayout.Label("<b>Physics Material: </b>" + col.sharedMaterial);
 
-                GUILayout.Label("Center (X, Y, Z):");
+                GUILayout.Label("<b>Center (X, Y, Z):</b>");
                 GUILayout.BeginHorizontal();
                 Vector3 pos = col.center;
                 pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
@@ -619,7 +683,7 @@ namespace DeveloperToolset
                 col.center = pos;
                 GUILayout.EndHorizontal();
 
-                GUILayout.Label("Size (X, Y Z):");
+                GUILayout.Label("<b>Size (X, Y Z):</b>");
                 GUILayout.BeginHorizontal();
                 pos = col.size;
                 pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
@@ -631,10 +695,10 @@ namespace DeveloperToolset
             else if (comp is SphereCollider)
             {
                 SphereCollider col = comp as SphereCollider;
-                GUILayout.Label("Is Trigger: " + col.isTrigger);
-                GUILayout.Label("Physics Material: " + col.sharedMaterial);
+                GUILayout.Label("<b>Is Trigger: </b>" + col.isTrigger);
+                GUILayout.Label("<b>Physics Material: </b>" + col.sharedMaterial);
 
-                GUILayout.Label("Center (X, Y, Z):");
+                GUILayout.Label("<b>Center (X, Y, Z):</b>");
                 GUILayout.BeginHorizontal();
                 Vector3 pos = col.center;
                 pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
@@ -644,7 +708,7 @@ namespace DeveloperToolset
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Radius: ");
+                GUILayout.Label("<b>Radius: </b>");
                 float radius = col.radius;
                 radius = (float)Convert.ToDouble(GUILayout.TextField(col.radius.ToString()));
                 col.radius = radius;
@@ -653,10 +717,10 @@ namespace DeveloperToolset
             else if (comp is CapsuleCollider)
             {
                 CapsuleCollider col = comp as CapsuleCollider;
-                GUILayout.Label("Is Trigger: " + col.isTrigger);
-                GUILayout.Label("Physics Material: " + col.sharedMaterial);
+                GUILayout.Label("<b>Is Trigger: </b>" + col.isTrigger);
+                GUILayout.Label("<b>Physics Material: </b>" + col.sharedMaterial);
 
-                GUILayout.Label("Center (X, Y, Z):");
+                GUILayout.Label("<b>Center (X, Y, Z):</b>");
                 GUILayout.BeginHorizontal();
                 Vector3 pos = col.center;
                 pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
@@ -666,22 +730,21 @@ namespace DeveloperToolset
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Radius: ");
+                GUILayout.Label("<b>Radius: </b>");
                 float radius = col.radius;
                 radius = (float)Convert.ToDouble(GUILayout.TextField(col.radius.ToString()));
                 col.radius = radius;
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Height: ");
+                GUILayout.Label("<b>Height: </b>");
                 float height = col.height;
                 height = (float)Convert.ToDouble(GUILayout.TextField(col.height.ToString()));
                 col.height = height;
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
-                string[] value = new string[] { "X-Axis", "Y-axis", "Z-axis" };
-                GUILayout.Label("Direction: " + value[col.direction]);
+                GUILayout.Label("<b>Direction: </b>" + new string[] { "X-Axis", "Y-axis", "Z-axis" }[col.direction]);
                 col.direction = Mathf.RoundToInt(GUILayout.HorizontalSlider(col.direction, 0, 2));
                 GUILayout.EndHorizontal();
             }
@@ -692,23 +755,23 @@ namespace DeveloperToolset
         {
             GUILayout.BeginVertical("box");
 
-            GUILayout.Label("Type: " + light.type);
+            GUILayout.Label("<b>Type: </b>" + light.type);
             if (light.type == LightType.Spot || light.type == LightType.Point)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Range:");
+                GUILayout.Label("<b>Range:</b>");
                 light.range = (float)Convert.ToDouble(GUILayout.TextField(light.range.ToString()));
                 GUILayout.EndHorizontal();
             }
             if (light.type == LightType.Spot)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Spot Angle:");
+                GUILayout.Label("<b>Spot Angle:</b>");
                 light.spotAngle = (float)Convert.ToDouble(GUILayout.TextField(light.spotAngle.ToString()));
                 GUILayout.EndHorizontal();
             }
 
-            GUILayout.Label("Color: (RGBA)");
+            GUILayout.Label("<b>Color: (RGBA)</b>");
             GUILayout.BeginHorizontal();
             Color color = light.color;
             color.r = (float)Convert.ToDouble(GUILayout.TextField(color.r.ToString()));
@@ -719,37 +782,100 @@ namespace DeveloperToolset
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Intensity: ");
+            GUILayout.Label("<b>Intensity: </b>");
             light.intensity = (float)Convert.ToDouble(GUILayout.TextField(light.intensity.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Bounce Intensity: ");
+            GUILayout.Label("<b>Bounce Intensity: </b>");
             light.bounceIntensity = (float)Convert.ToDouble(GUILayout.TextField(light.bounceIntensity.ToString()));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            int shadowType = 0;
-            if (light.shadows == LightShadows.Hard) shadowType = 1;
-            else if (light.shadows == LightShadows.Soft) shadowType = 2;
-            GUILayout.Label("Shadow Type: " + light.shadows);
+            GUILayout.Label("<b>Shadow Type: </b>" + light.shadows);
+            int shadowType = (int)light.shadows;
             shadowType = Mathf.RoundToInt(GUILayout.HorizontalSlider(shadowType, 0, 2));
-            if (shadowType == 0) light.shadows = LightShadows.None;
-            else if (shadowType == 1) light.shadows = LightShadows.Hard;
-            else if (shadowType == 2) light.shadows = LightShadows.Soft;
+            light.shadows = (LightShadows)shadowType;
             GUILayout.EndHorizontal();
 
-            GUILayout.Label("Cookie: " + light.cookie);
+            GUILayout.Label("<b>Cookie: </b>" + light.cookie);
             if (light.type == LightType.Directional)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label("Cookie Size: ");
+                GUILayout.Label("<b>Cookie Size: </b>");
                 light.cookieSize = (float)Convert.ToDouble(GUILayout.TextField(light.cookieSize.ToString()));
                 GUILayout.EndHorizontal();
             }
-            GUILayout.Label("Flare: " + light.flare);
-            GUILayout.Label("Render Mode: " + light.renderMode);
-            GUILayout.Label("Culling Mask: " + light.cullingMask);
+            GUILayout.Label("<b>Flare: </b>" + light.flare);
+            GUILayout.Label("<b>Render Mode: </b>" + light.renderMode);
+            GUILayout.Label("<b>Culling Mask: </b>" + light.cullingMask);
+            GUILayout.EndVertical();
+        }
+
+        private static void TransformGUI(Component comp)
+        {
+            GUILayout.BeginVertical("box");
+            GUILayout.BeginHorizontal();
+            showLocalPosition = GUILayout.Toggle(showLocalPosition, "");
+            GUILayout.Label("<b>Show local transform information</b>");
+            GUILayout.EndHorizontal();
+            Transform t = (Transform)comp;
+            if (showLocalPosition)
+            {
+                GUILayout.Label("<b>Local Position (X, Y, Z):</b>");
+                GUILayout.BeginHorizontal();
+                Vector3 pos = t.localPosition;
+                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
+                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
+                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
+                t.localPosition = pos;
+                GUILayout.EndHorizontal();
+
+                GUILayout.Label("<b>Local Rotation, Euler Angles (X, Y, Z):</b>");
+                GUILayout.BeginHorizontal();
+                pos = t.localEulerAngles;
+                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
+                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
+                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
+                t.localEulerAngles = pos;
+                GUILayout.EndHorizontal();
+
+                GUILayout.Label("<b>Local Rotation, Quaternion (X, Y, Z, W): </b>");
+                GUILayout.Label(t.localRotation.ToString());
+            }
+            else
+            {
+                GUILayout.Label("<b>Position (X, Y, Z):</b>");
+                GUILayout.BeginHorizontal();
+                Vector3 pos = t.position;
+                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
+                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
+                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
+                t.position = pos;
+                GUILayout.EndHorizontal();
+
+                GUILayout.Label("<b>Rotation, Euler Angles (X, Y, Z):</b>");
+                GUILayout.BeginHorizontal();
+                pos = t.eulerAngles;
+                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
+                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
+                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
+                t.eulerAngles = pos;
+                GUILayout.EndHorizontal();
+
+                GUILayout.Label("<b>Rotation, Quaternion (X, Y, Z, W): </b>" + t.rotation.ToString());
+            }
+
+            GUILayout.Label("<b>Local Scale:</b>");
+            GUILayout.BeginHorizontal();
+            Vector3 scl = t.localScale;
+            scl.x = (float)Convert.ToDouble(GUILayout.TextField(scl.x.ToString()));
+            scl.y = (float)Convert.ToDouble(GUILayout.TextField(scl.y.ToString()));
+            scl.z = (float)Convert.ToDouble(GUILayout.TextField(scl.z.ToString()));
+            t.localScale = scl;
+            t.gameObject.isStatic = false;
+            GUILayout.EndHorizontal();
+
             GUILayout.EndVertical();
         }
 
@@ -761,11 +887,10 @@ namespace DeveloperToolset
             GUILayout.BeginHorizontal();
             //GUILayout.Space(20);
             GUILayout.BeginVertical("box");
-            try
-            {
-                GUILayout.Label(mb.enabled.ToString());
-            }
+
+            try { GUILayout.Label("<b> Enabled: </b>" + mb.enabled.ToString()); }
             catch { /*catch the error spam to void */}
+
             foreach (FieldInfo fieldInfo in fields)
             {
                 GUILayout.BeginHorizontal();
@@ -775,31 +900,31 @@ namespace DeveloperToolset
                     string fieldValueStr = fieldValue.ToString();
                     if (fieldValue is bool)
                     {
-                        GUILayout.Label(fieldInfo.Name);
+                        GUILayout.Label("<b>" + fieldInfo.Name + ": </b>");
                         bool val = GUILayout.Toggle((bool)fieldValue, fieldInfo.Name);
                         fieldInfo.SetValue(comp, val);
                     }
                     else if (fieldValue is string)
                     {
-                        GUILayout.Label(fieldInfo.Name);
+                        GUILayout.Label("<b>" + fieldInfo.Name + ": </b>");
                         string val = GUILayout.TextField((string)fieldValue);
                         fieldInfo.SetValue(comp, val);
                     }
                     else if (fieldValue is int)
                     {
-                        GUILayout.Label(fieldInfo.Name);
+                        GUILayout.Label("<b>" + fieldInfo.Name + ": </b>");
                         int val = Convert.ToInt32(GUILayout.TextField(fieldValue.ToString()));
                         fieldInfo.SetValue(comp, val);
                     }
                     else if (fieldValue is float)
                     {
-                        GUILayout.Label(fieldInfo.Name);
+                        GUILayout.Label("<b>" + fieldInfo.Name + ": </b>");
                         float val = (float)Convert.ToDouble(GUILayout.TextField(fieldValue.ToString()));
                         fieldInfo.SetValue(comp, val);
                     }
                     else
                     {
-                        GUILayout.Label(fieldInfo.Name + ": " + fieldValueStr);
+                        GUILayout.Label("<b>" + fieldInfo.Name + ": </b>" + fieldValueStr);
                     }
                 }
                 catch (Exception)
@@ -816,52 +941,35 @@ namespace DeveloperToolset
         private static void FSMGUI(Component comp)
         {
             PlayMakerFSM fsm = comp as PlayMakerFSM;
-            if (fsm.enabled)
-                GUILayout.Label("Enabled");
-            else
-                GUILayout.Label("Disabled");
-            if (fsm.Active)
-                GUILayout.Label("Active");
-            else
-                GUILayout.Label("Not active");
 
+            if (fsm.enabled) GUILayout.Label("Enabled");
+            else GUILayout.Label("Disabled");
 
+            if (fsm.Active) GUILayout.Label("Active");
+            else GUILayout.Label("Not active");
 
             GUILayout.BeginHorizontal();
             //GUILayout.Space(20);
             GUILayout.BeginVertical("box");
 
-            GUILayout.Label("Name: " + fsm.Fsm.Name);
+            GUILayout.Label("<b>FSM Name: </b>" + fsm.Fsm.Name);
 
             SetFsmVarsFor(fsm, GUILayout.Toggle(ShowFsmVarsFor(fsm), "Show Variables"));
             if (ShowFsmVarsFor(fsm))
             {
-                GUILayout.Label("Float");
-                ListFsmVariables(fsm.FsmVariables.FloatVariables);
-                GUILayout.Label("Int");
-                ListFsmVariables(fsm.FsmVariables.IntVariables);
-                GUILayout.Label("Bool");
-                ListFsmVariables(fsm.FsmVariables.BoolVariables);
-                GUILayout.Label("String");
-                ListFsmVariables(fsm.FsmVariables.StringVariables);
-                GUILayout.Label("Vector2");
-                ListFsmVariables(fsm.FsmVariables.Vector2Variables);
-                GUILayout.Label("Vector3");
-                ListFsmVariables(fsm.FsmVariables.Vector3Variables);
-                GUILayout.Label("Rect");
-                ListFsmVariables(fsm.FsmVariables.RectVariables);
-                GUILayout.Label("Quaternion");
-                ListFsmVariables(fsm.FsmVariables.QuaternionVariables);
-                GUILayout.Label("Color");
-                ListFsmVariables(fsm.FsmVariables.ColorVariables);
-                GUILayout.Label("GameObject");
-                ListFsmVariables(fsm.FsmVariables.GameObjectVariables);
-                GUILayout.Label("Material");
-                ListFsmVariables(fsm.FsmVariables.MaterialVariables);
-                GUILayout.Label("Texture");
-                ListFsmVariables(fsm.FsmVariables.TextureVariables);
-                GUILayout.Label("Object");
-                ListFsmVariables(fsm.FsmVariables.ObjectVariables);
+                if (fsm.FsmVariables.FloatVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.FloatVariables);
+                if (fsm.FsmVariables.IntVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.IntVariables);
+                if (fsm.FsmVariables.BoolVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.BoolVariables);
+                if (fsm.FsmVariables.StringVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.StringVariables);
+                if (fsm.FsmVariables.Vector2Variables.Count() > 0) ListFsmVariables(fsm.FsmVariables.Vector2Variables);
+                if (fsm.FsmVariables.Vector3Variables.Count() > 0) ListFsmVariables(fsm.FsmVariables.Vector3Variables);
+                if (fsm.FsmVariables.RectVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.RectVariables);
+                if (fsm.FsmVariables.QuaternionVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.QuaternionVariables);
+                if (fsm.FsmVariables.ColorVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.ColorVariables);
+                if (fsm.FsmVariables.GameObjectVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.GameObjectVariables);
+                if (fsm.FsmVariables.MaterialVariables.Count() > 0) ListFsmMatVariables(fsm.FsmVariables.MaterialVariables);
+                if (fsm.FsmVariables.TextureVariables.Count() > 0) ListFsmTexVariables(fsm.FsmVariables.TextureVariables);
+                if (fsm.FsmVariables.ObjectVariables.Count() > 0) ListFsmVariables(fsm.FsmVariables.ObjectVariables);
             }
 
             SetFsmGlobalTransitionFor(fsm, GUILayout.Toggle(ShowFsmGlobalTransitionFor(fsm), "Show Global Transition"));
@@ -1064,83 +1172,37 @@ namespace DeveloperToolset
             return m_fsmToggles[fsm].showVars;
         }
 
-        private static void TransformGUI(Component comp)
-        {
-            GUILayout.BeginVertical("box");
-            showLocalPosition = GUILayout.Toggle(showLocalPosition, "Show local");
-            Transform t = (Transform)comp;
-            if (showLocalPosition)
-            {
-                GUILayout.Label("localPosition:");
-                GUILayout.BeginHorizontal();
-                Vector3 pos = t.localPosition;
-                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
-                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
-                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
-                t.localPosition = pos;
-                GUILayout.EndHorizontal();
-
-                GUILayout.Label("localRotation:");
-                GUILayout.BeginHorizontal();
-                pos = t.localRotation.eulerAngles;
-                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
-                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
-                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
-                t.localRotation = Quaternion.Euler(pos);
-                GUILayout.EndHorizontal();
-
-
-            }
-            else
-            {
-                GUILayout.Label("Position:");
-                GUILayout.BeginHorizontal();
-                Vector3 pos = t.position;
-                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
-                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
-                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
-                t.position = pos;
-                GUILayout.EndHorizontal();
-
-                GUILayout.Label("Rotation:");
-                GUILayout.BeginHorizontal();
-                pos = t.rotation.eulerAngles;
-                pos.x = (float)Convert.ToDouble(GUILayout.TextField(pos.x.ToString()));
-                pos.y = (float)Convert.ToDouble(GUILayout.TextField(pos.y.ToString()));
-                pos.z = (float)Convert.ToDouble(GUILayout.TextField(pos.z.ToString()));
-                t.rotation = Quaternion.Euler(pos);
-                GUILayout.EndHorizontal();
-
-            }
-            GUILayout.Label("localScale:");
-            GUILayout.BeginHorizontal();
-            Vector3 scl = t.localScale;
-            scl.x = (float)Convert.ToDouble(GUILayout.TextField(scl.x.ToString()));
-            scl.y = (float)Convert.ToDouble(GUILayout.TextField(scl.y.ToString()));
-            scl.z = (float)Convert.ToDouble(GUILayout.TextField(scl.z.ToString()));
-            t.localScale = scl;
-            t.gameObject.isStatic = false;
-            GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
-        }
-
         private static void ListFsmVariables(IEnumerable<FsmFloat> variables)
         {
+            GUILayout.Label("<b>Float Variables (FsmFloat):</b>");
             foreach (FsmFloat fsmFloat in variables)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name);
+                GUILayout.Label("<b>   " + fsmFloat.Name + ": </b>");
                 fsmFloat.Value = (float)Convert.ToDouble(GUILayout.TextField(fsmFloat.Value.ToString()));
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        private static void ListFsmVariables(IEnumerable<FsmInt> variables)
+        {
+            GUILayout.Label("<b>Integer Variables (FsmInt):</b>");
+            foreach (FsmInt fsmInt in variables)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("<b>   " + fsmInt.Name + ": </b>");
+                fsmInt.Value = Convert.ToInt32(GUILayout.TextField(fsmInt.Value.ToString()));
                 GUILayout.EndHorizontal();
             }
         }
 
         private static void ListFsmVariables(IEnumerable<FsmBool> variables)
         {
+            GUILayout.Label("<b>Boolean Variables (FsmBool):</b>");
             foreach (FsmBool fsmBool in variables)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmBool.Name + ": " + fsmBool.Value);
+                GUILayout.Label("<b>   " + fsmBool.Name + ": </b>" + fsmBool.Value);
                 fsmBool.Value = GUILayout.Toggle(fsmBool.Value, "");
                 GUILayout.EndHorizontal();
             }
@@ -1148,92 +1210,111 @@ namespace DeveloperToolset
 
         private static void ListFsmVariables(IEnumerable<FsmString> variables)
         {
-            foreach (FsmString fsmFloat in variables)
+            GUILayout.Label("<b>String Variables (FsmString):</b>");
+            foreach (FsmString fsmString in variables)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name);
-                fsmFloat.Value = GUILayout.TextField(fsmFloat.Value);
-                GUILayout.EndHorizontal();
-            }
-        }
-
-        private static void ListFsmVariables(IEnumerable<FsmInt> variables)
-        {
-            foreach (FsmInt fsmFloat in variables)
-            {
-                GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name);
-                fsmFloat.Value = Convert.ToInt32(GUILayout.TextField(fsmFloat.Value.ToString()));
-                GUILayout.EndHorizontal();
-            }
-        }
-
-        private static void ListFsmVariables(IEnumerable<FsmColor> variables)
-        {
-            foreach (FsmColor fsmFloat in variables)
-            {
-                GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name + ": " + fsmFloat.Value);
-                GUILayout.EndHorizontal();
-            }
-        }
-
-        private static void ListFsmVariables(IEnumerable<FsmGameObject> variables)
-        {
-            foreach (FsmGameObject fsmFloat in variables)
-            {
-                GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name + ": " + fsmFloat.Value);
+                GUILayout.Label("<b>   " + fsmString.Name + ": </b>");
+                fsmString.Value = GUILayout.TextField(fsmString.Value);
                 GUILayout.EndHorizontal();
             }
         }
 
         private static void ListFsmVariables(IEnumerable<FsmVector2> variables)
         {
-            foreach (FsmVector2 fsmFloat in variables)
+            GUILayout.Label("<b>Vector2 Variables (FsmVector2):</b>");
+            foreach (FsmVector2 fsmVector2 in variables)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name + ": " + fsmFloat.Value);
+                GUILayout.Label("<b>   " + fsmVector2.Name + ": </b>" + fsmVector2.Value);
                 GUILayout.EndHorizontal();
             }
         }
 
         private static void ListFsmVariables(IEnumerable<FsmVector3> variables)
         {
-            foreach (FsmVector3 fsmFloat in variables)
+            GUILayout.Label("<b>Vector3 Variables (FsmVector3):</b>");
+            foreach (FsmVector3 fsmVector3 in variables)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name + ": " + fsmFloat.Value);
+                GUILayout.Label("<b>   " + fsmVector3.Name + ": </b>" + fsmVector3.Value);
                 GUILayout.EndHorizontal();
             }
         }
 
         private static void ListFsmVariables(IEnumerable<FsmRect> variables)
         {
-            foreach (FsmRect fsmFloat in variables)
+            GUILayout.Label("<b>Rect Variables (FsmRect):</b>");
+            foreach (FsmRect fsmRect in variables)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name + ": " + fsmFloat.Value);
+                GUILayout.Label("<b>   " + fsmRect.Name + ": </b>" + fsmRect.Value);
                 GUILayout.EndHorizontal();
             }
         }
 
         private static void ListFsmVariables(IEnumerable<FsmQuaternion> variables)
         {
-            foreach (FsmQuaternion fsmFloat in variables)
+            GUILayout.Label("<b>Quaternion Variables (FsmQuaternion):</b>");
+            foreach (FsmQuaternion fsmQuaternion in variables)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name + ": " + fsmFloat.Value);
+                GUILayout.Label("<b>   " + fsmQuaternion.Name + ": </b>" + fsmQuaternion.Value);
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        private static void ListFsmVariables(IEnumerable<FsmColor> variables)
+        {
+            GUILayout.Label("<b>Color Variables (FsmColor):</b>");
+            foreach (FsmColor fsmColor in variables)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("<b>   " + fsmColor.Name + ": </b>" + fsmColor.Value);
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        private static void ListFsmVariables(IEnumerable<FsmGameObject> variables)
+        {
+            GUILayout.Label("<b>GameObject Variables (FsmGameObject):</b>");
+            foreach (FsmGameObject fsmGameObject in variables)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("<b>   " + fsmGameObject.Name + ": </b>" + fsmGameObject.Value);
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        private static void ListFsmMatVariables(IEnumerable<FsmMaterial> variables)
+        {
+            GUILayout.Label("<b>Material Variables (FsmMaterial):</b>");
+            foreach (FsmMaterial fsmMaterial in variables)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("<b>   " + fsmMaterial.Name + ": </b>" + fsmMaterial.Value);
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        private static void ListFsmTexVariables(IEnumerable<FsmTexture> variables)
+        {
+            GUILayout.Label("<b>Texture Variables (FsmTexture):</b>");
+            foreach (FsmTexture fsmTexture in variables)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("<b>   " + fsmTexture.Name + ": </b>" + fsmTexture.Value);
                 GUILayout.EndHorizontal();
             }
         }
 
         private static void ListFsmVariables(IEnumerable<FsmObject> variables)
         {
-            foreach (FsmObject fsmFloat in variables)
+            GUILayout.Label("<b>Object Variables (FsmObject):</b>");
+            foreach (FsmObject fsmObject in variables)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label(fsmFloat.Name + ": " + fsmFloat.Value);
+                GUILayout.Label("<b>   " + fsmObject.Name + ": </b>" + fsmObject.Value);
                 GUILayout.EndHorizontal();
             }
         }
