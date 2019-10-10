@@ -266,6 +266,9 @@ namespace DeveloperToolset
                         case CharacterController _: CharacterControllerGUI(comp as CharacterController); break;
                         case Collider _: ColliderGUI(comp); break;
                         case AudioSource _: AudioSourceGUI(comp as AudioSource); break;
+                        case AudioLowPassFilter _: AudioLowPassFilterGUI(comp as AudioLowPassFilter); break;
+                        case AudioHighPassFilter _: AudioHighPassFilterGUI(comp as AudioHighPassFilter); break;
+                        case AudioDistortionFilter _: AudioDistortionFilterGUI(comp as AudioDistortionFilter); break;
                         case MeshFilter _: MeshFilterGUI(comp as MeshFilter); break;
                         case MeshRenderer _: MeshRendererGUI(comp as MeshRenderer); break;
                         case Light _: LightGUI(comp as Light); break;
@@ -408,72 +411,50 @@ namespace DeveloperToolset
 
             if (componentToggle[textMesh])
             {
-                int intValue;
-                float floatValue;
                 GUILayout.Label("<b>Text:</b>");
-                string text = textMesh.text;
-                text = GUILayout.TextField(textMesh.text);
-                textMesh.text = text;
+                textMesh.text = GUILayout.TextField(textMesh.text);
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("<b>Offset Z:</b>");
-                floatValue = textMesh.offsetZ;
-                floatValue = (float)Convert.ToDouble(GUILayout.TextField(textMesh.offsetZ.ToString()));
-                textMesh.offsetZ = floatValue;
+                textMesh.offsetZ = (float)Convert.ToDouble(GUILayout.TextField(textMesh.offsetZ.ToString()));
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("<b>Character Size:</b>");
-                floatValue = textMesh.characterSize;
-                floatValue = (float)Convert.ToDouble(GUILayout.TextField(textMesh.characterSize.ToString()));
-                textMesh.characterSize = floatValue;
+                textMesh.characterSize = (float)Convert.ToDouble(GUILayout.TextField(textMesh.characterSize.ToString()));
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("<b>Line Spacing:</b>");
-                floatValue = textMesh.lineSpacing;
-                floatValue = (float)Convert.ToDouble(GUILayout.TextField(textMesh.lineSpacing.ToString()));
-                textMesh.lineSpacing = floatValue;
+                textMesh.lineSpacing = (float)Convert.ToDouble(GUILayout.TextField(textMesh.lineSpacing.ToString()));
                 GUILayout.EndHorizontal();
 
                 GUILayout.Label("<b>Anchor: </b>" + textMesh.anchor);
                 GUILayout.BeginHorizontal();
-                intValue = (int)textMesh.anchor;
-                intValue = Mathf.RoundToInt(GUILayout.HorizontalSlider(intValue, 0, 8));
-                textMesh.anchor = (TextAnchor)intValue;
+                textMesh.anchor = (TextAnchor)Mathf.RoundToInt(GUILayout.HorizontalSlider((int)textMesh.anchor, 0, 8));
                 GUILayout.EndHorizontal();
 
                 GUILayout.Label("<b>Alignment: </b>" + textMesh.alignment);
                 GUILayout.BeginHorizontal();
-                intValue = (int)textMesh.alignment;
-                intValue = Mathf.RoundToInt(GUILayout.HorizontalSlider(intValue, 0, 2));
-                textMesh.alignment = (TextAlignment)intValue;
+                textMesh.alignment = (TextAlignment)Mathf.RoundToInt(GUILayout.HorizontalSlider((int)textMesh.alignment, 0, 2));
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("<b>Tab Size:</b>");
-                floatValue = textMesh.tabSize;
-                floatValue = (float)Convert.ToDouble(GUILayout.TextField(textMesh.tabSize.ToString()));
-                textMesh.tabSize = floatValue;
+                textMesh.tabSize = (float)Convert.ToDouble(GUILayout.TextField(textMesh.tabSize.ToString()));
                 GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("<b>Font Size:</b>");
-                intValue = textMesh.fontSize;
-                intValue = Convert.ToInt32(GUILayout.TextField(textMesh.fontSize.ToString()));
-                textMesh.fontSize = intValue;
+                textMesh.fontSize = Convert.ToInt32(GUILayout.TextField(textMesh.fontSize.ToString()));
                 GUILayout.EndHorizontal();
 
                 GUILayout.Label("<b>Font Style: </b>" + textMesh.fontStyle);
                 GUILayout.BeginHorizontal();
-                intValue = (int)textMesh.fontStyle;
-                intValue = Mathf.RoundToInt(GUILayout.HorizontalSlider(intValue, 0, 3));
-                textMesh.fontStyle = (FontStyle)intValue;
+                textMesh.fontStyle = (FontStyle)Mathf.RoundToInt(GUILayout.HorizontalSlider((int)textMesh.fontStyle, 0, 3));
                 GUILayout.EndHorizontal();
 
-                bool boolValue = textMesh.richText;
-                boolValue = GUILayout.Toggle(textMesh.richText, "Rich Text");
-                textMesh.richText = boolValue;
+                textMesh.richText = GUILayout.Toggle(textMesh.richText, "Rich Text");
 
                 GUILayout.Label("<b>Font: </b>" + textMesh.font);
 
@@ -835,7 +816,45 @@ namespace DeveloperToolset
             }
             GUILayout.EndVertical();
         }
+        private static void AudioLowPassFilterGUI(AudioLowPassFilter lp)
+        {
+            GUILayout.BeginVertical("box");
+            if (componentToggle[lp])
+            {
+                GUILayout.Label("<b>Enabled: </b> " + lp.enabled.ToString());
+                GUILayout.Label("<b>Cutoff freq:</b> ");
+                lp.cutoffFrequency = (float)Convert.ToDouble(GUILayout.TextField(lp.cutoffFrequency.ToString()));
+                GUILayout.Label("<b>LP Resonance:</b> ");
+                lp.lowpassResonanceQ = (float)Convert.ToDouble(GUILayout.TextField(lp.lowpassResonanceQ.ToString()));
+                GUILayout.EndVertical();
+            }
 
+        }
+        private static void AudioHighPassFilterGUI(AudioHighPassFilter hp)
+        {
+            GUILayout.BeginVertical("box");
+            if (componentToggle[hp])
+            {
+                GUILayout.Label("<b>Enabled: </b> " + hp.enabled.ToString());
+                GUILayout.Label("<b>Cutoff freq:</b> ");
+                hp.cutoffFrequency = (float)Convert.ToDouble(GUILayout.TextField(hp.cutoffFrequency.ToString()));
+                GUILayout.Label("<b>HP Resonance:</b> ");
+                hp.highpassResonanceQ = (float)Convert.ToDouble(GUILayout.TextField(hp.highpassResonanceQ.ToString()));
+                GUILayout.EndVertical();
+            }
+        }
+        private static void AudioDistortionFilterGUI(AudioDistortionFilter dis)
+        {
+            GUILayout.BeginVertical("box");
+            if (componentToggle[dis])
+            {
+                GUILayout.Label("<b>Enabled: </b> " + dis.enabled.ToString());
+                GUILayout.Label("<b>Distortion Level:</b> ");
+                dis.distortionLevel = (float)Convert.ToDouble(GUILayout.TextField(dis.distortionLevel.ToString()));
+                GUILayout.EndVertical();
+            }
+
+        }
         private static void ColliderGUI(Component comp)
         {
             GUILayout.BeginVertical("box");
@@ -926,9 +945,7 @@ namespace DeveloperToolset
 
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("<b>Radius: </b>");
-                    float radius = col.radius;
-                    radius = (float)Convert.ToDouble(GUILayout.TextField(col.radius.ToString()));
-                    col.radius = radius;
+                    col.radius = (float)Convert.ToDouble(GUILayout.TextField(col.radius.ToString()));
                     GUILayout.EndHorizontal();
                 }
                 else if (comp is CapsuleCollider)
@@ -960,16 +977,12 @@ namespace DeveloperToolset
 
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("<b>Radius: </b>");
-                    float radius = col.radius;
-                    radius = (float)Convert.ToDouble(GUILayout.TextField(col.radius.ToString()));
-                    col.radius = radius;
+                    col.radius = (float)Convert.ToDouble(GUILayout.TextField(col.radius.ToString()));
                     GUILayout.EndHorizontal();
 
                     GUILayout.BeginHorizontal();
                     GUILayout.Label("<b>Height: </b>");
-                    float height = col.height;
-                    height = (float)Convert.ToDouble(GUILayout.TextField(col.height.ToString()));
-                    col.height = height;
+                    col.height = (float)Convert.ToDouble(GUILayout.TextField(col.height.ToString()));
                     GUILayout.EndHorizontal();
 
                     GUILayout.BeginHorizontal();

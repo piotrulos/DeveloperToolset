@@ -20,6 +20,7 @@ DeveloperToolset/[Bb]in/[Rr]elease/*
 !DeveloperToolset/[Bb]in/[Rr]elease/MSCLoader.dll
 !DeveloperToolset/[Bb]in/[Rr]elease/PlayMaker.dll
 !DeveloperToolset/[Bb]in/[Rr]elease/UnityEngine.dll
+!DeveloperToolset/[Bb]in/[Rr]elease/Assembly-CSharp.dll
 
 [Rr]eleases/
 x64/

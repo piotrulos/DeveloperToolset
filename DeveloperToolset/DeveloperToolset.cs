@@ -55,14 +55,19 @@ namespace DeveloperToolset
             Keybind.Add(this, raycastTweakable);
             Keybind.Add(this, copy);
             Keybind.Add(this, paste);
+
+            Settings.AddHeader(this, "Basic Settings", new Color32(0, 128, 0, 255));
             Settings.AddCheckBox(this, menuMouse);
             Settings.AddCheckBox(this, componentCollapse);
+            Settings.AddCheckBox(this, variablesPublic);
+            Settings.AddCheckBox(this, variablesPrivate);
+            Settings.AddHeader(this, "Window sizes", new Color32(0, 128, 0, 255));
+            Settings.AddText(this, "Set inspector and hierarchy window size here");
             Settings.AddSlider(this, hierarchyWidth, 200, Screen.width);
             Settings.AddSlider(this, hierarchyHeight, 200, Screen.height);
             Settings.AddSlider(this, inspectorWidth, 200, Screen.width);
             Settings.AddSlider(this, inspectorHeight, 200, Screen.height);
-            Settings.AddCheckBox(this, variablesPublic);
-            Settings.AddCheckBox(this, variablesPrivate);
+
         }
 
         public override void ModSettingsLoaded()
